@@ -4,13 +4,27 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
-        int count = 1; // 지나가는 방 개수 (최소 1부터 시작)
-        long range = 1; // 현재 층의 최대 번호
-
-        while (range < N) {
-            range += 6 * count; // 다음 층으로 이동 (6, 12, 18, ...)
-            count++;
+        int startPoint = 0;
+        if (N == 1) {
+            startPoint = 1;
+        } else if (2 <= N && N <= 7) {
+            startPoint = 2;
+        } else {
+            int start = 2;
+            int end = 7;
+            for (int i = 1; ; i++) {
+                if (start + (6 * i) <= N && end + (6 * (i + 1)) >= N) {
+                    startPoint = i + 2;
+                    break;
+                }
+                start += 6 * i;
+                end += 6 * (i + 1);
+                if (end > 1000000000) {
+                    startPoint = i+2;
+                    break;
+                }
+            }
         }
-        System.out.println(count);
+        System.out.println(startPoint);
     }
 }
